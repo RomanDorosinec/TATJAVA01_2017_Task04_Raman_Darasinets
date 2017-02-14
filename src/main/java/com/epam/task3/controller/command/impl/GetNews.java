@@ -1,0 +1,52 @@
+package com.epam.task3.controller.command.impl;
+
+import com.epam.task3.bean.News;
+import com.epam.task3.controller.command.Command;
+import com.epam.task3.service.NewsService;
+import com.epam.task3.service.exception.ServiceException;
+import com.epam.task3.service.factory.ServiceFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import java.util.ArrayList;
+
+/**
+ * Class GetNews which implements the interface methods of Command
+ */
+public class GetNews implements Command {
+    private static final String ERROR_GETTING_NEWS = "Error when getting news!";
+
+    private static final Logger logger = LogManager.getLogger();
+    /**
+     * Receive all news of file
+     *
+     * @param request request of user
+     * @return all news which searched
+     */
+    @Override
+    public String execute(String request) {
+        String response;
+        ArrayList<News> allNews;
+        ServiceFactory serviceFactory = ServiceFactory.getInstance();
+        NewsService newsService = serviceFactory.getNewsService();
+        try {
+            StringBuilder stringBuilder = new StringBuilder();
+            String[] paramsOfNews = getParamOfNews(request);
+            allNews = newsService.getNews(paramsOfNews[0], paramsOfNews[1], paramsOfNews[2]);
+            for (News news : allNews) {
+                stringBuilder.append(news.toString() + "\n");
+            }
+            response = stringBuilder.toString();
+        } catch (ServiceException e) {
+            response = ERROR_GETTING_NEWS;
+            logger.error(e);
+        }
+        return response;
+    }
+
+    private String[] getParamOfNews(String request) {
+        request = request.substring(request.indexOf(' ') + 1, request.length());
+        String[] paramNews = request.split(",", 3);
+        return paramNews;
+    }
+}
