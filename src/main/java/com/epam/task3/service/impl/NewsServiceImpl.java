@@ -8,6 +8,8 @@ import com.epam.task3.dao.factory.DAOFactory;
 import com.epam.task3.service.NewsService;
 import com.epam.task3.service.exception.InitializationException;
 import com.epam.task3.service.exception.ServiceException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 
@@ -15,6 +17,8 @@ import java.util.ArrayList;
  * Class NewsServiceImpl which implements the interface methods of NewsService
  */
 public class NewsServiceImpl implements NewsService {
+
+    private static final Logger logger = LogManager.getLogger(NewsServiceImpl.class);
 
     private static final String INCORRECT_NUMBER_PARAM = "Entered incorrect number of parameters";
 
@@ -33,57 +37,38 @@ public class NewsServiceImpl implements NewsService {
     /**
      * Method send checked news to DAO
      *
-     * @param category category of news
-     * @param title title of news
-     * @param author author of news
+     * @param news
      * @throws ServiceException if there are exceptions in Service layer
      */
     @Override
-    public void addNews(String category, String title, String author) throws ServiceException {
+    public void addNews(News news) throws ServiceException {
         try {
 
-            NewsCategory.valueOf(category.toUpperCase());
-            newsDAO.addNews(getParamOfNewsForAdded(category, title, author));
+            NewsCategory.valueOf(news.getCategory().toUpperCase());
+            checkParamsOfNewsForAdded(news.getCategory(), news.getTitle(), news.getAuthor());
+            newsDAO.addNews(news);
         } catch (IllegalArgumentException | InitializationException e) {
+            logger.error(e);
             throw new ServiceException(e);
-        } catch (DAOException e2) {
-            throw new ServiceException(e2);
+        } catch (DAOException e) {
+            throw new ServiceException(e);
         }
-    }
-
-    /**
-     * Method validate number of news parameters
-     *
-     * @param category category of news
-     * @param title title of news
-     * @param author author of news
-     * @return news bean with all param
-     * @throws InitializationException entered incorrect number of parameters
-     */
-    private News getParamOfNewsForAdded(String category, String title, String author) throws InitializationException {
-        News news;
-        if (category == null || title == null || author == null) {
-            throw new InitializationException(INCORRECT_NUMBER_PARAM);
-        }
-        news = new News(category, title, author);
-        return news;
     }
 
     /**
      * Method gets list of new from DAO
      *
-     * @param category category of news
-     * @param title title of news
-     * @param author author of news
+     * @param news
      * @return list of news
      * @throws ServiceException if there are exceptions in Service layer
      */
     @Override
-    public ArrayList<News> getNews(String category, String title, String author) throws ServiceException {
+    public ArrayList<News> getNews(News news) throws ServiceException {
         ArrayList<News> allNews;
         try {
-            allNews = newsDAO.getNews(new News(category, title, author));
+            allNews = newsDAO.getNews(news);
         } catch (DAOException e) {
+            logger.error(e);
             throw new ServiceException(e);
         }
         return allNews;
@@ -92,5 +77,19 @@ public class NewsServiceImpl implements NewsService {
     @Override
     public void destroy() {
         newsDAO.destroy();
+    }
+
+    /**
+     * Method validate number of news parameters
+     *
+     * @param category category of news
+     * @param title title of news
+     * @param author author of news
+     * @throws InitializationException entered incorrect number of parameters
+     */
+    private void checkParamsOfNewsForAdded(String category, String title, String author) throws InitializationException {
+        if (category == null || title == null || author == null) {
+            throw new InitializationException(INCORRECT_NUMBER_PARAM);
+        }
     }
 }

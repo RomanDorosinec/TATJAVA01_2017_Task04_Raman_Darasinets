@@ -16,7 +16,7 @@ import java.util.ArrayList;
 public class GetNews implements Command {
     private static final String ERROR_GETTING_NEWS = "Error when getting news!";
 
-    private static final Logger logger = LogManager.getLogger();
+    private static final Logger logger = LogManager.getLogger(GetNews.class);
     /**
      * Receive all news of file
      *
@@ -30,9 +30,8 @@ public class GetNews implements Command {
         ServiceFactory serviceFactory = ServiceFactory.getInstance();
         NewsService newsService = serviceFactory.getNewsService();
         try {
-            StringBuilder stringBuilder = new StringBuilder();
-            String[] paramsOfNews = getParamOfNews(request);
-            allNews = newsService.getNews(paramsOfNews[0], paramsOfNews[1], paramsOfNews[2]);
+            StringBuilder stringBuilder = new StringBuilder();;
+            allNews = newsService.getNews(getParams(request));
             for (News news : allNews) {
                 stringBuilder.append(news.toString() + "\n");
             }
@@ -44,9 +43,9 @@ public class GetNews implements Command {
         return response;
     }
 
-    private String[] getParamOfNews(String request) {
+    private News getParams(String request) {
         request = request.substring(request.indexOf(' ') + 1, request.length());
         String[] paramNews = request.split(",", 3);
-        return paramNews;
+        return new News(paramNews[0], paramNews[1], paramNews[2]);
     }
 }

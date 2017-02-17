@@ -16,15 +16,13 @@ import java.util.ArrayList;
  */
 public class DBNewsDAO implements NewsDAO {
 
-    private static final Logger logger = LogManager.getLogger();
+    private static final Logger logger = LogManager.getLogger(DBNewsDAO.class);
 
     private static final String CATEGORY = "category";
     private static final String TITLE = "title";
     private static final String AUTHOR = "author";
 
-    private static final String DATABASES = "news";
-
-    private final String INSERT_NEWS = "INSERT INTO " + DATABASES + "(category, title, author) VALUES (?, ?, ?)";
+    private final String INSERT_NEWS = "INSERT INTO news (category, title, author) VALUES (?, ?, ?)";
     private final String SELECT_NEWS = "SELECT * FROM news WHERE category LIKE ? AND title LIKE ? AND author LIKE ?";
 
     private ConnectionPool pool = ConnectionPool.getInstance();
@@ -59,10 +57,9 @@ public class DBNewsDAO implements NewsDAO {
             preparedStatement.setString(3, news.getAuthor());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
             throw new DAOException(e);
-        } catch (ConnectionPoolException e1) {
-            throw new DAOException(e1);
+        } catch (ConnectionPoolException e) {
+            throw new DAOException(e);
         } finally {
             try {
                 preparedStatement.close();
@@ -99,10 +96,9 @@ public class DBNewsDAO implements NewsDAO {
                 allNews.add(new News(set.getString(CATEGORY), set.getString(TITLE), set.getString(AUTHOR)));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
             throw new DAOException(e);
-        } catch (ConnectionPoolException e1) {
-            throw new DAOException(e1);
+        } catch (ConnectionPoolException e) {
+            throw new DAOException(e);
         } finally {
             try {
                 preparedStatement.close();

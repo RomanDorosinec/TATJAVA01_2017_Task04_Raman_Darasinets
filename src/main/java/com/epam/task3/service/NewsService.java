@@ -19,12 +19,12 @@ public interface NewsService {
     /**
      * News add's entered by user to databases
      */
-    void addNews(String category, String title, String author) throws ServiceException;
+    void addNews(News news) throws ServiceException;
 
     /**
      * Receive all news from the database
      */
-    ArrayList<News> getNews(String category, String title, String author) throws ServiceException;
+    ArrayList<News> getNews(News news) throws ServiceException;
 
     /**
      * Method frees resources

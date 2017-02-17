@@ -18,7 +18,7 @@ import java.util.concurrent.Executor;
  * Class contains pool of opened connections to database.
  */
 public class ConnectionPool {
-    private static final Logger logger = LogManager.getLogger();
+    private static final Logger logger = LogManager.getLogger(ConnectionPool.class);
 
     private static final String DRIVER_EXCEPTION = "Can't find database driver class.";
     private static final String ERROR_CONNECTION = "Error connection to the data source.";
@@ -59,8 +59,6 @@ public class ConnectionPool {
     }
 
     public void initPoolData() throws ConnectionPoolException {
-        Locale.setDefault(Locale.ENGLISH);
-
         try {
             Class.forName(driverName);
             givenAwayConQueue = new ArrayBlockingQueue<>(poolSize);
