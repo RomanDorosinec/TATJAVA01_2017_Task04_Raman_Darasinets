@@ -11,12 +11,6 @@ import java.util.ArrayList;
  */
 public interface NewsService {
     /**
-     * Method initialize and take resources, that application require
-     */
-    void init() throws ServiceException;
-
-
-    /**
      * News add's entered by user to databases
      */
     void addNews(News news) throws ServiceException;
@@ -25,9 +19,4 @@ public interface NewsService {
      * Receive all news from the database
      */
     ArrayList<News> getNews(News news) throws ServiceException;
-
-    /**
-     * Method frees resources
-     */
-    void destroy();
 }

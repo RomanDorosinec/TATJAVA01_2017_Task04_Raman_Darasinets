@@ -1,4 +1,4 @@
-package com.epam.task3;
+package com.epam.task3.main;
 
 import com.epam.task3.controller.Controller;
 

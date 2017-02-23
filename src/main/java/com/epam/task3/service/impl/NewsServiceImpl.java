@@ -22,18 +22,6 @@ public class NewsServiceImpl implements NewsService {
 
     private static final String INCORRECT_NUMBER_PARAM = "Entered incorrect number of parameters";
 
-    private static final DAOFactory daoFactory = DAOFactory.getInstance();
-    private static final NewsDAO newsDAO = daoFactory.getNewDAO();
-
-    @Override
-    public void init() throws ServiceException {
-        try {
-            newsDAO.init();
-        } catch (DAOException e) {
-            throw new ServiceException(e);
-        }
-    }
-
     /**
      * Method send checked news to DAO
      *
@@ -43,7 +31,8 @@ public class NewsServiceImpl implements NewsService {
     @Override
     public void addNews(News news) throws ServiceException {
         try {
-
+            DAOFactory daoFactory = DAOFactory.getInstance();
+            NewsDAO newsDAO = daoFactory.getNewDAO();
             NewsCategory.valueOf(news.getCategory().toUpperCase());
             checkParamsOfNewsForAdded(news.getCategory(), news.getTitle(), news.getAuthor());
             newsDAO.addNews(news);
@@ -66,17 +55,14 @@ public class NewsServiceImpl implements NewsService {
     public ArrayList<News> getNews(News news) throws ServiceException {
         ArrayList<News> allNews;
         try {
+            DAOFactory daoFactory = DAOFactory.getInstance();
+            NewsDAO newsDAO = daoFactory.getNewDAO();
             allNews = newsDAO.getNews(news);
         } catch (DAOException e) {
             logger.error(e);
             throw new ServiceException(e);
         }
         return allNews;
-    }
-
-    @Override
-    public void destroy() {
-        newsDAO.destroy();
     }
 
     /**

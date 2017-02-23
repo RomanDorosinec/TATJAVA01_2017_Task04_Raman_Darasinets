@@ -28,18 +28,6 @@ public class DBNewsDAO implements NewsDAO {
     private ConnectionPool pool = ConnectionPool.getInstance();
 
     /**
-     * Method create pool of connections, that are required to application
-     */
-    @Override
-    public void init() throws DAOException {
-        try {
-            pool.initPoolData();
-        } catch (ConnectionPoolException e) {
-            throw new DAOException(e);
-        }
-    }
-
-    /**
      * Method writes current news, got as argument, to database
      *
      * @param news news bean to write
@@ -112,13 +100,5 @@ public class DBNewsDAO implements NewsDAO {
             }
         }
         return allNews;
-    }
-
-    /**
-     * Method closes all connections in connection pool
-     */
-    @Override
-    public void destroy() {
-        pool.clearConnectionQueue();
     }
 }

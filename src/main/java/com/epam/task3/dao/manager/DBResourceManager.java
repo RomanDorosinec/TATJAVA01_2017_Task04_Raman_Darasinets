@@ -1,6 +1,5 @@
 package com.epam.task3.dao.manager;
 
-import java.util.Locale;
 import java.util.ResourceBundle;
 
 /**
@@ -9,7 +8,7 @@ import java.util.ResourceBundle;
 public class DBResourceManager {
     private final static DBResourceManager instance = new DBResourceManager();
 
-    private ResourceBundle bundle = ResourceBundle.getBundle("resource", Locale.ENGLISH);
+    private ResourceBundle bundle = ResourceBundle.getBundle("resource");
 
     /**
      * Singleton implementation

@@ -9,12 +9,6 @@ import java.util.ArrayList;
  * Interface that can be added and receive the news
  */
 public interface NewsDAO {
-
-    /**
-     * Method adds news
-     */
-    void init() throws DAOException;
-
     /**
      * News add's entered by user
      */
@@ -24,9 +18,4 @@ public interface NewsDAO {
      * Receive all the news from the file
      */
     ArrayList<News> getNews(News news) throws DAOException;
-
-    /**
-     * Method frees resources
-     */
-    void destroy();
 }

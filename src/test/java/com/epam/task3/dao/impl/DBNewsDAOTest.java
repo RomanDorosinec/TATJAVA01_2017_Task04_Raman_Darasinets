@@ -18,7 +18,7 @@ public class DBNewsDAOTest {
 
     @AfterMethod
     public void destroy() {
-        ConnectionPool.getInstance().clearConnectionQueue();
+
     }
 
     @DataProvider(name = "New for added")
@@ -32,10 +32,8 @@ public class DBNewsDAOTest {
     public void testAddNews() throws Exception {
         News news = new News("film", "warcraft", "Duncan Jones");
         DBNewsDAO dbNewsDAO = new DBNewsDAO();
-        dbNewsDAO.init();
         dbNewsDAO.addNews(news);
         String insert = "SELECT * FROM news WHERE category = ? title = ? author = ?";
-        dbNewsDAO.destroy();
     }
 
     /*@Test

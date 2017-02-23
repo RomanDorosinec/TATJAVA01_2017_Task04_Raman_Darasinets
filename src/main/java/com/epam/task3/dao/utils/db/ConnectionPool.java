@@ -7,7 +7,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.ArrayBlockingQueue;
@@ -75,12 +74,12 @@ public class ConnectionPool {
         }
     }
 
-    public void clearConnectionQueue() {
+    public void clearConnectionQueue() throws ConnectionPoolException {
         try {
             closeConnectionsQueue(givenAwayConQueue);
             closeConnectionsQueue(connectionQueue);
         } catch (SQLException e) {
-            logger.error(e);
+            throw new ConnectionPoolException(e);
         }
     }
 

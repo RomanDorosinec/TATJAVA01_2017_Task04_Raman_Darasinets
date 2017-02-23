@@ -17,6 +17,7 @@ public class GetNews implements Command {
     private static final String ERROR_GETTING_NEWS = "Error when getting news!";
 
     private static final Logger logger = LogManager.getLogger(GetNews.class);
+
     /**
      * Receive all news of file
      *
