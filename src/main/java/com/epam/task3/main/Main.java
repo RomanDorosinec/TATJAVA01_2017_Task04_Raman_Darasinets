@@ -8,8 +8,8 @@ public class Main {
 
     public static void main(String[] args) {
         Controller controller = new Controller();
-        controller.init();
+        controller.initResource();
         System.out.println(controller.executeTask(ADD));
-        controller.destroy();
+        controller.clearResource();
     }
 }
