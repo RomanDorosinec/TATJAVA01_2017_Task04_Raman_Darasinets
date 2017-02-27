@@ -12,7 +12,7 @@ import org.apache.logging.log4j.Logger;
  */
 public final class Controller {
 
-    private static final Logger logger = LogManager.getLogger();
+    private static final Logger logger = LogManager.getLogger(Controller.class);
 
     private final CommandProvider provider = new CommandProvider();
 

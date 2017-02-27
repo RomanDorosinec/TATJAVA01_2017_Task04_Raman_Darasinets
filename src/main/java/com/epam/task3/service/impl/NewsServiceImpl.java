@@ -1,7 +1,7 @@
 package com.epam.task3.service.impl;
 
 import com.epam.task3.bean.News;
-import com.epam.task3.controller.NewsCategory;
+import com.epam.task3.controller.command.NewsCategory;
 import com.epam.task3.dao.NewsDAO;
 import com.epam.task3.dao.exception.DAOException;
 import com.epam.task3.dao.factory.DAOFactory;
